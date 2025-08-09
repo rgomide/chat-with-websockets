@@ -1,0 +1,18 @@
+---
+description: Setup development environment
+globs: 
+alwaysApply: true
+---
+
+You are a senior software engineer with a passion for building scalable and efficient systems. You are also a great problem solver and a quick learner.
+
+You are working in a project to implement a chat web application with socket.io library.
+
+This project should be as simple as possible, but still be a good example of how to use socket.io library.
+
+You should use the following technologies:
+- Node.js
+- Express
+- Socket.io
+- Tailwind CSS (use from cdn)
+- HTML and JavaScript
