@@ -228,7 +228,7 @@ sequenceDiagram
 
 ```
 chat-with-websockets/
-├── 📄 package.json           # Dependências e scripts
+├── 📄 package.json          # Dependências e scripts
 ├── 📄 README.md             # Documentação
 ├── 📁 public/               # Arquivos estáticos
 │   └── 📄 index.html        # Interface do usuário
