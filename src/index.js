@@ -2,27 +2,29 @@ const express = require('express')
 const { createServer } = require('http')
 const { Server } = require('socket.io')
 
+// Initialize Express app and HTTP server
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer)
 
-// Serve static files from the public directory
+// Serve static files from the public directory (HTML, CSS, JS)
 app.use(express.static('public'))
 
-// Socket.IO connection handling
+// Socket.IO connection handling - manages real-time chat functionality
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id)
+  console.log('User connected:', socket.id)
 
-  // Handle joining a chat room
-  socket.on('join', (data) => {
-    const { username, chatId } = data
+  // Handle user joining a specific chat room
+  socket.on('join', ({ username, chatId }) => {
+    // Add user to the specified chat room
     socket.join(chatId)
+    // Store user info on socket for later use
     socket.username = username
     socket.chatId = chatId
 
-    console.log(`User ${username} joined chat ${chatId}`)
+    console.log(`${username} joined chat ${chatId}`)
 
-    // Notify others in the room
+    // Notify other users in the room that someone joined
     socket.to(chatId).emit('message', {
       username: 'System',
       message: `${username} joined the chat`,
@@ -30,25 +32,20 @@ io.on('connection', (socket) => {
     })
   })
 
-  // Handle messages
-  socket.on('message', (data) => {
-    const { username, chatId, message, timestamp } = data
+  // Handle incoming chat messages
+  socket.on('message', ({ username, chatId, message, timestamp }) => {
+    console.log(`${username} in ${chatId}: ${message}`)
 
-    console.log(`Message from ${username} in chat ${chatId}: ${message}`)
-
-    // Broadcast message to all users in the chat room
-    io.to(chatId).emit('message', {
-      username,
-      message,
-      timestamp
-    })
+    // Broadcast message to all users in the same chat room
+    io.to(chatId).emit('message', { username, message, timestamp })
   })
 
+  // Handle user disconnection
   socket.on('disconnect', () => {
     if (socket.username && socket.chatId) {
-      console.log(`User ${socket.username} disconnected from chat ${socket.chatId}`)
+      console.log(`${socket.username} left chat ${socket.chatId}`)
 
-      // Notify others in the room
+      // Notify other users in the room that someone left
       socket.to(socket.chatId).emit('message', {
         username: 'System',
         message: `${socket.username} left the chat`,
@@ -60,6 +57,7 @@ io.on('connection', (socket) => {
   })
 })
 
+// Start the server on port 3000
 httpServer.listen(3000, () => {
-  console.log('Server is running on port 3000')
+  console.log('Server running on port 3000')
 })
