@@ -2,17 +2,16 @@
 
 ## 📋 Índice
 
-1. [Visão Geral](#visão-geral)
-2. [Teoria dos WebSockets](#teoria-dos-websockets)
-3. [Arquitetura do Sistema](#arquitetura-do-sistema)
-4. [Tecnologias Utilizadas](#tecnologias-utilizadas)
-5. [Instalação e Configuração](#instalação-e-configuração)
-6. [Como Usar](#como-usar)
-7. [Estrutura do Projeto](#estrutura-do-projeto)
-8. [Fluxo de Dados](#fluxo-de-dados)
-9. [Conceitos Técnicos](#conceitos-técnicos)
-10. [Exercícios Práticos](#exercícios-práticos)
-11. [Referências](#referências)
+- [Visão Geral](#-visão-geral)
+- [Teoria dos WebSockets](#-teoria-dos-websockets)
+- [Arquitetura do Sistema](#️-arquitetura-do-sistema)
+- [Tecnologias Utilizadas](#️-tecnologias-utilizadas)
+- [Instalação e Configuração](#-instalação-e-configuração)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Fluxo de Dados](#-fluxo-de-dados)
+- [Conceitos Técnicos](#-conceitos-técnicos)
+- [Exercícios Práticos](#-exercícios-práticos)
+- [Referências](#-referências)
 
 ## 🎯 Visão Geral
 
@@ -199,15 +198,6 @@ sequenceDiagram
 4. **Acesse a aplicação**
    - Abra o navegador
    - Acesse: `http://localhost:3000`
-
-### Scripts Disponíveis
-
-```json
-{
-  "start": "nodemon src/index.js", // Inicia o servidor com auto-reload
-  "format": "prettier --write ." // Formata o código
-}
-```
 
 ## 📖 Como Usar
 
