@@ -43,14 +43,14 @@ graph TB
         A -->|Request| B
         B -->|Response| A
     end
-    
+
     subgraph "WebSockets (Bidirecional)"
         C[Cliente] -->|Conexão| D[Servidor]
         D -->|Dados| C
         C -->|Dados| D
         D -->|Dados| C
     end
-    
+
     style A fill:#e1f5fe
     style B fill:#f3e5f5
     style C fill:#e8f5e8
@@ -71,17 +71,17 @@ graph TB
 sequenceDiagram
     participant C as Cliente
     participant S as Servidor
-    
+
     C->>S: GET /socket.io/ HTTP/1.1
     C->>S: Upgrade: websocket
     C->>S: Connection: Upgrade
     C->>S: Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
-    
+
     S->>C: HTTP/1.1 101 Switching Protocols
     S->>C: Upgrade: websocket
     S->>C: Connection: Upgrade
     S->>C: Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
-    
+
     Note over C,S: Conexão WebSocket estabelecida
     C->>S: Dados em tempo real
     S->>C: Dados em tempo real
@@ -97,28 +97,28 @@ graph TB
         A[HTML/CSS/JS] --> B[Socket.IO Client]
         B --> C[WebSocket Connection]
     end
-    
+
     subgraph "Servidor (Backend)"
         D[Express.js] --> E[HTTP Server]
         E --> F[Socket.IO Server]
         F --> G[Room Management]
         G --> H[Message Broadcasting]
     end
-    
+
     subgraph "Comunicação"
         C <-->|WebSocket| F
     end
-    
+
     subgraph "Salas de Chat"
         I[Sala A] --> J[Usuário 1]
         I --> K[Usuário 2]
         L[Sala B] --> M[Usuário 3]
         L --> N[Usuário 4]
     end
-    
+
     H --> I
     H --> L
-    
+
     style A fill:#e3f2fd
     style D fill:#f3e5f5
     style I fill:#e8f5e8
@@ -132,19 +132,19 @@ sequenceDiagram
     participant U1 as Usuário 1
     participant S as Servidor
     participant U2 as Usuário 2
-    
+
     U1->>S: Conectar (username, chatId)
     S->>U1: Conexão estabelecida
     S->>U2: "Usuário 1 entrou no chat"
-    
+
     U1->>S: Enviar mensagem
     S->>U1: Broadcast para sala
     S->>U2: Receber mensagem
-    
+
     U2->>S: Enviar resposta
     S->>U2: Broadcast para sala
     S->>U1: Receber resposta
-    
+
     U1->>S: Desconectar
     S->>U2: "Usuário 1 saiu do chat"
 ```
@@ -152,16 +152,19 @@ sequenceDiagram
 ## 🛠️ Tecnologias Utilizadas
 
 ### Backend
+
 - **Node.js** - Runtime JavaScript no servidor
 - **Express.js** - Framework web para Node.js
 - **Socket.IO** - Biblioteca para WebSockets em tempo real
 
 ### Frontend
+
 - **HTML5** - Estrutura da página
 - **JavaScript (ES6+)** - Lógica do cliente
 - **Tailwind CSS** - Framework CSS utilitário (via CDN)
 
 ### Ferramentas de Desenvolvimento
+
 - **Nodemon** - Reinicialização automática do servidor
 - **Prettier** - Formatação de código
 
@@ -175,17 +178,20 @@ sequenceDiagram
 ### Passos para Instalação
 
 1. **Clone o repositório**
+
    ```bash
    git clone https://github.com/rgomide/chat-with-websockets.git
    cd chat-with-websockets
    ```
 
 2. **Instale as dependências**
+
    ```bash
    npm install
    ```
 
 3. **Inicie o servidor**
+
    ```bash
    npm start
    ```
@@ -198,8 +204,8 @@ sequenceDiagram
 
 ```json
 {
-  "start": "nodemon src/index.js",    // Inicia o servidor com auto-reload
-  "format": "prettier --write ."      // Formata o código
+  "start": "nodemon src/index.js", // Inicia o servidor com auto-reload
+  "format": "prettier --write ." // Formata o código
 }
 ```
 
@@ -243,12 +249,14 @@ chat-with-websockets/
 ### Detalhamento dos Arquivos
 
 #### `src/index.js` - Servidor Principal
+
 - Configuração do Express.js
 - Inicialização do Socket.IO
 - Gerenciamento de conexões e salas
 - Broadcasting de mensagens
 
 #### `public/index.html` - Interface do Cliente
+
 - Interface responsiva com Tailwind CSS
 - Lógica JavaScript para WebSockets
 - Gerenciamento de estado da conexão
@@ -283,7 +291,7 @@ flowchart TD
     G --> H[Outros usuários recebem]
     H --> I[Atualizar interface]
     I --> J[Scroll para última mensagem]
-    
+
     style A fill:#e8f5e8
     style C fill:#ffebee
     style J fill:#e3f2fd
@@ -294,6 +302,7 @@ flowchart TD
 ### Socket.IO vs WebSockets Nativo
 
 **Socket.IO** é uma biblioteca que:
+
 - Fornece **fallback automático** para HTTP long-polling
 - Oferece **reconexão automática**
 - Suporta **rooms e namespaces**
@@ -314,16 +323,17 @@ socket.to(chatId).emit('message', data)
 
 ### Eventos Socket.IO
 
-| Evento | Descrição | Direção |
-|--------|-----------|---------|
-| `connection` | Nova conexão estabelecida | Servidor |
-| `disconnect` | Conexão fechada | Servidor |
-| `join` | Usuário entra em sala | Cliente → Servidor |
-| `message` | Nova mensagem | Bidirecional |
+| Evento       | Descrição                 | Direção            |
+| ------------ | ------------------------- | ------------------ |
+| `connection` | Nova conexão estabelecida | Servidor           |
+| `disconnect` | Conexão fechada           | Servidor           |
+| `join`       | Usuário entra em sala     | Cliente → Servidor |
+| `message`    | Nova mensagem             | Bidirecional       |
 
 ### Estrutura de Dados
 
 #### Mensagem
+
 ```javascript
 {
   username: "João Silva",
@@ -333,6 +343,7 @@ socket.to(chatId).emit('message', data)
 ```
 
 #### Dados de Conexão
+
 ```javascript
 {
   username: "João Silva",
@@ -343,33 +354,41 @@ socket.to(chatId).emit('message', data)
 ## 🎯 Exercícios Práticos
 
 ### Exercício 1: Implementar Notificações
+
 **Objetivo**: Adicionar notificações sonoras quando novas mensagens chegam.
 
 **Passos**:
+
 1. Adicionar elemento `<audio>` no HTML
 2. Implementar função para tocar som
 3. Chamar função quando nova mensagem chegar
 
 ### Exercício 2: Histórico de Mensagens
+
 **Objetivo**: Persistir mensagens em memória do servidor.
 
 **Passos**:
+
 1. Criar array para armazenar mensagens
 2. Salvar mensagens quando recebidas
 3. Enviar histórico ao conectar
 
 ### Exercício 3: Lista de Usuários Online
+
 **Objetivo**: Mostrar quem está conectado na sala.
 
 **Passos**:
+
 1. Manter lista de usuários por sala
 2. Emitir lista quando usuário conectar/desconectar
 3. Atualizar interface com lista
 
 ### Exercício 4: Mensagens Privadas
+
 **Objetivo**: Permitir mensagens diretas entre usuários.
 
 **Passos**:
+
 1. Implementar comando `/msg @usuario`
 2. Criar lógica para mensagens privadas
 3. Atualizar interface para mostrar mensagens privadas
@@ -377,43 +396,12 @@ socket.to(chatId).emit('message', data)
 ## 📚 Referências
 
 ### Documentação Oficial
+
 - [Socket.IO Documentation](https://socket.io/docs/)
 - [Express.js Documentation](https://expressjs.com/)
 - [Node.js Documentation](https://nodejs.org/docs/)
 
-### Artigos Acadêmicos
-- **WebSocket Protocol** - RFC 6455
-- **Real-time Web Applications** - IETF Standards
-
 ### Tutoriais Recomendados
+
 - [Socket.IO Getting Started](https://socket.io/get-started/chat)
 - [WebSockets vs HTTP](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
-
-### Ferramentas Relacionadas
-- **Socket.IO Admin UI** - Interface de administração
-- **Socket.IO Redis Adapter** - Escalabilidade horizontal
-- **Socket.IO Testing** - Testes automatizados
-
----
-
-## 👨‍🏫 Uso Acadêmico
-
-Este projeto foi desenvolvido especificamente para **aulas acadêmicas** e demonstra:
-
-1. **Conceitos fundamentais** de comunicação em tempo real
-2. **Arquitetura cliente-servidor** moderna
-3. **Protocolos de comunicação** (HTTP vs WebSockets)
-4. **Desenvolvimento full-stack** com JavaScript
-5. **Boas práticas** de desenvolvimento web
-
-### Sugestões para Professores
-
-- **Demonstração ao vivo** da comunicação em tempo real
-- **Comparação** entre HTTP tradicional e WebSockets
-- **Análise** do código fonte em conjunto
-- **Implementação** dos exercícios práticos
-- **Discussão** sobre escalabilidade e performance
-
----
-
-**Desenvolvido para fins educacionais** 🎓
